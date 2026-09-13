@@ -145,6 +145,8 @@ Latest run (`rules-v1` reasoner, `evals/reports/latest.md`):
 ## Live mode (Gmail + Stripe test mode + HubSpot + Slack)
 
 1. `cp .env.example .env`, set `SETTLE_MODE=live`, and fill in the credentials. `.env.example` lists the scopes each one needs.
+   Set `SETTLE_DEMO_CUSTOMER_EMAIL` only to a mailbox you control. If it is blank, live seeding uses a `+settle-demo`
+   alias of the authorized support mailbox, so the final verified customer reply stays in that mailbox.
 2. Seed the canonical data (from `backend/`):
    ```bash
    uv run python scripts/seed_stripe.py    # customer, $42,000 invoice INV-10428 with duplicated $6,000 line, finalized/open

@@ -57,6 +57,7 @@ class Settings(BaseSettings):
     gmail_refresh_token: str | None = Field(None, alias="GMAIL_REFRESH_TOKEN")
     gmail_user_id: str = Field("me", alias="GMAIL_USER_ID")
     gmail_inbox_query: str = Field("in:inbox newer_than:30d", alias="GMAIL_INBOX_QUERY")
+    demo_customer_email: str | None = Field(None, alias="SETTLE_DEMO_CUSTOMER_EMAIL")
 
     retry_base_delay_s: float = Field(0.5, alias="SETTLE_RETRY_BASE_DELAY_S")
     retry_max_attempts: int = Field(3, alias="SETTLE_RETRY_MAX_ATTEMPTS")

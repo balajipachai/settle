@@ -1,0 +1,77 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_incorr2": {
+      "email": "ap@incorr2.example",
+      "id": "cus_incorr2",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Stark Cloud incorr2",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_incorr2": {
+      "amount_due": 2600000,
+      "amount_paid": 0,
+      "amount_remaining": 2600000,
+      "currency": "usd",
+      "customer": "cus_incorr2",
+      "id": "in_incorr2",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_incorr2_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_incorr2_a",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-80001"
+      },
+      "number": "INV-80001",
+      "object": "invoice",
+      "status": "open",
+      "total": 2600000
+    }
+  }
+}

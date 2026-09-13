@@ -1,0 +1,146 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_umb_eu": {
+      "email": "ap@umbrella-health.example",
+      "id": "cus_umb_eu",
+      "metadata": {
+        "hubspot_company_id": "204"
+      },
+      "name": "Umbrella Health EU",
+      "object": "customer"
+    },
+    "cus_umb_us": {
+      "email": "ap@umbrella-health.example",
+      "id": "cus_umb_us",
+      "metadata": {
+        "hubspot_company_id": "203"
+      },
+      "name": "Umbrella Health",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_cus_umb_eu": {
+      "amount_due": 800000,
+      "amount_paid": 0,
+      "amount_remaining": 800000,
+      "currency": "usd",
+      "customer": "cus_umb_eu",
+      "id": "in_cus_umb_eu",
+      "lines": {
+        "data": [
+          {
+            "amount": 400000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_umb_eu_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 400000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_umb_eu_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-20477"
+      },
+      "number": "INV-20477",
+      "object": "invoice",
+      "status": "open",
+      "total": 800000
+    },
+    "in_cus_umb_us": {
+      "amount_due": 800000,
+      "amount_paid": 0,
+      "amount_remaining": 800000,
+      "currency": "usd",
+      "customer": "cus_umb_us",
+      "id": "in_cus_umb_us",
+      "lines": {
+        "data": [
+          {
+            "amount": 400000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_umb_us_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 400000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_umb_us_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-20377"
+      },
+      "number": "INV-20377",
+      "object": "invoice",
+      "status": "open",
+      "total": 800000
+    }
+  }
+}

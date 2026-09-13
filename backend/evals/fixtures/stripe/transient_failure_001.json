@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_acme_001": {
+      "email": "ap@acme-analytics.example",
+      "id": "cus_acme_001",
+      "metadata": {
+        "hubspot_company_id": "201"
+      },
+      "name": "Acme Analytics",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_acme_10428": {
+      "amount_due": 4200000,
+      "amount_paid": 0,
+      "amount_remaining": 4200000,
+      "currency": "usd",
+      "customer": "cus_acme_001",
+      "id": "in_acme_10428",
+      "lines": {
+        "data": [
+          {
+            "amount": 3000000,
+            "currency": "usd",
+            "description": "Enterprise platform subscription - Aug 2026",
+            "id": "il_acme_platform",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_ent_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_acme_overage_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_acme_overage_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-10428"
+      },
+      "number": "INV-10428",
+      "object": "invoice",
+      "status": "open",
+      "total": 4200000
+    }
+  }
+}

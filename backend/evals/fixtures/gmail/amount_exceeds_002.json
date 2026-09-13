@@ -1,0 +1,29 @@
+{
+  "messages": {
+    "msg_acme_dispute_001": {
+      "body": "We were charged twice for the $3,000 API overage on INV-10428.",
+      "from_email": "maya@acme-analytics.example",
+      "from_name": "Maya Chen",
+      "id": "msg_acme_dispute_001",
+      "inbox": true,
+      "message_id_header": "<msg_acme_dispute_001@mail.settle-demo.example>",
+      "received_at": "2026-09-12T09:41:00+00:00",
+      "subject": "Duplicate API overage charge on INV-10428",
+      "thread_id": "thr_acme_001",
+      "to_email": "billing@settle-demo.example"
+    },
+    "msg_acme_prior_000": {
+      "body": "Hi team,\n\nConfirming we reviewed the August 2026 API usage report. The $6,000 API overage looks right and is\nexpected on our side - please include it on the next invoice.\n\nBest,\nMaya",
+      "from_email": "maya@acme-analytics.example",
+      "from_name": "Maya Chen",
+      "id": "msg_acme_prior_000",
+      "inbox": false,
+      "message_id_header": "<msg_acme_prior_000@mail.settle-demo.example>",
+      "received_at": "2026-08-28T16:05:00+00:00",
+      "subject": "August API usage review",
+      "thread_id": "thr_acme_001",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

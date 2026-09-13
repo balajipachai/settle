@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_initrode3": {
+      "email": "ap@initrode3.example",
+      "id": "cus_initrode3",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Initrode 3",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_initrode3": {
+      "amount_due": 3000000,
+      "amount_paid": 0,
+      "amount_remaining": 3000000,
+      "currency": "usd",
+      "customer": "cus_initrode3",
+      "id": "in_initrode3",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_ini3_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_x_a",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 400000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_x_b",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-70003"
+      },
+      "number": "INV-70003",
+      "object": "invoice",
+      "status": "open",
+      "total": 3000000
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_vandelay": {
+      "email": "ap@vandelay.example",
+      "id": "cus_vandelay",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Vandelay Industries",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_vandelay": {
+      "amount_due": 3380000,
+      "amount_paid": 0,
+      "amount_remaining": 3380000,
+      "currency": "usd",
+      "customer": "cus_vandelay",
+      "id": "in_vandelay",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_vandelay_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_vdl_api_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_vdl_api_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 90000,
+            "currency": "usd",
+            "description": "SMS overage - Aug 2026",
+            "id": "il_vdl_sms_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_sms",
+                "product": "prod_price_sms"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 90000,
+            "currency": "usd",
+            "description": "SMS overage - Aug 2026",
+            "id": "il_vdl_sms_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_sms",
+                "product": "prod_price_sms"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-60001"
+      },
+      "number": "INV-60001",
+      "object": "invoice",
+      "status": "open",
+      "total": 3380000
+    }
+  }
+}

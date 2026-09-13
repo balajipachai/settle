@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "msg_initrode2": {
+      "body": "You charged us twice for the $6,000 API overage on INV-70002.",
+      "from_email": "ap@initrode2.example",
+      "from_name": "Pat Lee",
+      "id": "msg_initrode2",
+      "inbox": true,
+      "message_id_header": "<msg_initrode2@mail.settle-demo.example>",
+      "received_at": "2026-09-12T10:00:00+00:00",
+      "subject": "Charged twice",
+      "thread_id": "thr_initrode2",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

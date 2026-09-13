@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settle — invoice dispute resolver</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --panel: #fff; --ink: #111827; --muted: #6b7280; --line: #e5e7eb;
+    --brand: #0f172a; --accent: #4f46e5; --ok: #059669; --warn: #d97706; --bad: #dc2626; --info: #2563eb; --human: #7c3aed;
+    --okbg: #ecfdf5; --warnbg: #fffbeb; --badbg: #fef2f2; --infobg: #eff6ff; --humanbg: #f5f3ff;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); font-size: 14px; }
+  header { background: var(--brand); color: #fff; padding: 12px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 18px; letter-spacing: .3px; }
+  header .tag { color: #cbd5e1; font-size: 12px; }
+  header nav { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #1e293b; color: #e2e8f0; border: 1px solid #334155; }
+  button { font: inherit; border-radius: 8px; border: 1px solid var(--line); background: #fff; padding: 6px 12px; cursor: pointer; }
+  button:hover { border-color: #9ca3af; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button.danger { background: #fff; color: var(--bad); border-color: #fca5a5; }
+  button.ghost { background: transparent; color: #e2e8f0; border-color: #334155; }
+  button:disabled { opacity: .5; cursor: default; }
+  main { display: grid; grid-template-columns: 330px 1fr; gap: 16px; padding: 16px; max-width: 1500px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .panel h2 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+  .stack > * + * { margin-top: 12px; }
+  .mail { border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+  .mail .subj { font-weight: 600; }
+  .mail .from, .small { color: var(--muted); font-size: 12px; }
+  .mail .snip { margin: 6px 0 8px; font-size: 12px; color: #374151; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .runitem { display: flex; justify-content: space-between; gap: 8px; padding: 8px; border-radius: 8px; cursor: pointer; }
+  .runitem:hover, .runitem.sel { background: #eef2ff; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .s-RESOLVED { background: var(--okbg); color: var(--ok); }
+  .s-AWAITING_APPROVAL { background: var(--warnbg); color: var(--warn); }
+  .s-BLOCKED, .s-REJECTED, .s-FAILED { background: var(--badbg); color: var(--bad); }
+  .s-AWAITING_HUMAN_INVESTIGATION { background: var(--humanbg); color: var(--human); }
+  .s-ESCALATED, .s-PARTIALLY_COMPLETED { background: #fff7ed; color: #c2410c; }
+  .s-CLOSED_NO_ACTION { background: #f3f4f6; color: #374151; }
+  .s-default { background: var(--infobg); color: var(--info); }
+  .hero { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .hero h2 { font-size: 20px; margin: 0; text-transform: none; letter-spacing: 0; color: var(--ink); }
+  .reason { margin-top: 6px; color: #374151; }
+  .steps { display: flex; gap: 4px; margin: 14px 0 4px; flex-wrap: wrap; }
+  .step { flex: 1 1 80px; min-width: 80px; font-size: 11px; text-align: center; padding: 8px 4px; border-radius: 8px; background: #f3f4f6; color: var(--muted); border: 1px solid transparent; }
+  .step.done { background: var(--okbg); color: var(--ok); }
+  .step.active { background: var(--warnbg); color: var(--warn); border-color: #fcd34d; font-weight: 600; }
+  .step.warn { background: #fff7ed; color: #c2410c; }
+  .step.stop { background: var(--badbg); color: var(--bad); font-weight: 600; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 12px; margin-top: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-width: 0; }
+  .card h3 { margin: 0 0 8px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .card.wide { grid-column: 1 / -1; }
+  .kv { display: grid; grid-template-columns: 130px 1fr; gap: 4px 10px; font-size: 13px; }
+  .kv div:nth-child(odd) { color: var(--muted); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; }
+  .big { font-size: 26px; font-weight: 700; }
+  .check { display: flex; gap: 8px; padding: 3px 0; font-size: 13px; }
+  .check .ic { width: 16px; flex: none; font-weight: 700; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .muted { color: var(--muted); }
+  .ev { border-left: 3px solid var(--line); padding: 4px 8px; margin: 4px 0; font-size: 12px; }
+  .ev.gmail { border-color: #ea4335; } .ev.stripe { border-color: #635bff; } .ev.hubspot { border-color: #ff7a59; }
+  .src { font-weight: 700; font-size: 11px; text-transform: uppercase; margin: 8px 0 2px; }
+  .untrusted { font-size: 10px; color: var(--warn); border: 1px solid #fcd34d; border-radius: 4px; padding: 0 4px; margin-left: 4px; }
+  pre.email { white-space: pre-wrap; background: #f9fafb; border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: 12px; margin: 0; max-height: 320px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .scroll { max-height: 360px; overflow: auto; }
+  .approval { background: var(--warnbg); border: 1px solid #fcd34d; }
+  .approval input, .approval textarea { font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+  .approval textarea { width: 100%; min-height: 110px; font-size: 12px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .tile .v { font-size: 24px; font-weight: 700; } .tile .l { color: var(--muted); font-size: 12px; }
+  .empty { color: var(--muted); padding: 40px; text-align: center; }
+  .toast { position: fixed; bottom: 16px; right: 16px; background: var(--brand); color: #fff; padding: 10px 14px; border-radius: 10px; opacity: 0; transition: opacity .2s; max-width: 420px; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Settle</h1>
+  <span class="tag">From messy customer claim to verified financial resolution — with evidence, approval, and auditability.</span>
+  <nav>
+    <span class="badge" id="b-mode">…</span><span class="badge" id="b-reasoner">…</span><span class="badge" id="b-policy">…</span>
+    <button class="ghost" onclick="go('#/')">Disputes</button>
+    <button class="ghost" onclick="go('#/evals')">Evaluation</button>
+    <span id="demo-controls" hidden class="row">
+      <button class="ghost" onclick="injectFault()" title="HubSpot update returns 503 three times after the Stripe credit">Inject HubSpot 503</button>
+      <button class="ghost" onclick="clearFaults()">Clear faults</button>
+      <button class="ghost" onclick="resetDemo()">Reset demo</button>
+    </span>
+  </nav>
+</header>
+<main>
+  <aside class="stack">
+    <section class="panel"><h2>Gmail inbox</h2><div id="inbox" class="stack"></div></section>
+    <section class="panel"><h2>Dispute runs</h2><div id="runs"></div></section>
+  </aside>
+  <section id="view"><div class="panel empty">Pick a customer email and click <b>Resolve with Settle</b>.</div></section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = (minor, cur) => minor == null ? "—" : new Intl.NumberFormat("en-US", {style: "currency", currency: (cur || "usd").toUpperCase()}).format(minor / 100);
+const pill = (s) => `<span class="pill ${["RESOLVED","AWAITING_APPROVAL","BLOCKED","REJECTED","FAILED","AWAITING_HUMAN_INVESTIGATION","ESCALATED","PARTIALLY_COMPLETED","CLOSED_NO_ACTION"].includes(s) ? "s-" + s : "s-default"}">${esc((s || "").replaceAll("_", " "))}</span>`;
+const tick = (ok) => ok ? `<span class="ic ok">✓</span>` : `<span class="ic bad">✗</span>`;
+const TERMINAL = new Set(["RESOLVED","REJECTED","BLOCKED","FAILED","CLOSED_NO_ACTION","AWAITING_HUMAN_INVESTIGATION"]);
+let health = {}, current = null, lastView = null, poller = null;
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, {headers: {"Content-Type": "application/json"}, ...opts});
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.detail || r.statusText);
+  return body;
+}
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 3500); }
+function go(hash) { location.hash = hash; }
+
+async function loadHealth() {
+  health = await api("/api/health");
+  $("#b-mode").textContent = `mode: ${health.mode}`;
+  $("#b-reasoner").textContent = `reasoner: ${health.reasoner}`;
+  $("#b-policy").textContent = `policy ${health.policy_version}`;
+  $("#demo-controls").hidden = health.mode !== "fixture";
+}
+
+async function loadSide() {
+  const [inbox, runs] = await Promise.all([api("/api/inbox").catch(() => []), api("/api/runs").catch(() => [])]);
+  $("#inbox").innerHTML = inbox.map((m) => `
+    <div class="mail">
+      <div class="subj">${esc(m.subject)}</div>
+      <div class="from">${esc(m.from_name || "")} &lt;${esc(m.from_email)}&gt;</div>
+      <div class="snip">${esc(m.snippet)}</div>
+      <div class="row">${m.run_id
+        ? `${pill(m.run_status)} <button onclick="go('#/runs/${m.run_id}')">Open</button>`
+        : `<button class="primary" onclick="startRun('${esc(m.id)}')">Resolve with Settle</button>`}</div>
+    </div>`).join("") || `<div class="small">Inbox is empty.</div>`;
+  $("#runs").innerHTML = runs.map((r) => `
+    <div class="runitem ${current === r.run_id ? "sel" : ""}" onclick="go('#/runs/${r.run_id}')">
+      <div><div><b>${esc(r.customer_name || r.source_email_id)}</b> ${r.replay_of_run_id ? '<span class="small">(replay)</span>' : ""}</div>
+      <div class="small">${esc(r.invoice_number || "")} · ${money(r.disputed_amount_minor, r.currency)}</div></div>
+      <div>${pill(r.status)}</div>
+    </div>`).join("") || `<div class="small">No runs yet.</div>`;
+}
+
+async function startRun(id, force = false) {
+  const r = await api("/api/runs", {method: "POST", body: JSON.stringify({gmail_message_id: id, force_new: force})});
+  if (!r.created) toast("Same Gmail message already processed — returning the existing run (no duplicate work).");
+  go(`#/runs/${r.run.run_id}`);
+  loadSide();
+}
+
+const STEPS = [
+  ["Extract claim", ["extract_claim"]], ["Resolve identity", ["resolve_entities"]], ["Gather evidence", ["retrieve_evidence"]],
+  ["Reconcile", ["reconcile_financials"]], ["Adjudicate", ["adjudicate_dispute"]], ["Policy", ["validate_policy"]],
+  ["Human approval", ["approval_gate"]], ["Stripe credit", ["execute_financial_action"]], ["HubSpot", ["update_crm", "repair_or_escalate"]],
+  ["Verify", ["verify_state"]], ["Notify customer", ["send_customer_reply"]],
+];
+function stepper(v) {
+  const done = new Set(v.events.filter((e) => e.event_type === "node_completed").map((e) => e.node_name));
+  const statuses = v.events.filter((e) => e.event_type === "status_changed").map((e) => e.metadata.to);
+  const st = v.run.status, s = v.state;
+  let stopped = false;
+  return `<div class="steps">${STEPS.map(([label, nodes], i) => {
+    let cls = "";
+    let ok = nodes.some((n) => done.has(n));
+    if (label === "Policy") ok = s.policy_result?.passed;
+    if (label === "Human approval") ok = s.approval?.decision === "approve" && s.approval?.valid;
+    if (label === "Stripe credit") ok = s.execution?.financial_action_status === "SUCCEEDED";
+    if (label === "HubSpot") ok = s.execution?.hubspot_updated && (s.verification?.hubspot_ok ?? true);
+    if (label === "Verify") ok = s.verification?.status === "VERIFIED";
+    if (label === "Notify customer") ok = !!s.customer_reply;
+    if (ok) cls = (label === "HubSpot" && statuses.includes("PARTIALLY_COMPLETED")) ? "done warn" : "done";
+    else if (!stopped) {
+      stopped = true;
+      if (v.pending?.kind === "approval" && label === "Human approval") cls = "active";
+      else if (TERMINAL.has(st) || st === "ESCALATED") cls = "stop";
+      else cls = "active";
+    }
+    const hint = label === "HubSpot" && statuses.includes("PARTIALLY_COMPLETED") ? " ⚠ repaired" : "";
+    return `<div class="step ${cls}">${i + 1}. ${label}${hint}</div>`;
+  }).join("")}</div>`;
+}
+
+function evidenceCard(ev) {
+  if (!ev) return "";
+  const groups = {gmail: [], stripe: [], hubspot: []};
+  ev.references.forEach((r) => groups[r.source].push(r));
+  return `<div class="card"><h3>Evidence <span class="small">${ev.references.length} items</span></h3>
+    ${Object.entries(groups).map(([src, refs]) => `<div class="src">${src}</div>` + refs.map((r) => `
+      <div class="ev ${src}"><span class="mono">${esc(r.ref_id)}</span>${r.trusted ? "" : '<span class="untrusted">untrusted</span>'}<br>${esc(r.value_summary)}</div>`).join("")).join("")}
+  </div>`;
+}
+
+function approvalPanel(v) {
+  const p = v.pending, a = v.state.proposed_action;
+  if (!p) return "";
+  if (p.kind === "repair_required") return `<div class="card approval wide"><h3>Repair required ${pill("ESCALATED")}</h3>
+    <div>${esc(p.reason || "")}</div><div class="small">Stripe credit <span class="mono">${esc(p.stripe_credit_note_id)}</span> is durable; retry only touches HubSpot.</div>
+    <div class="row" style="margin-top:8px"><button class="primary" onclick="resume({decision:'retry_repair'})">Retry repair</button>
+    <button onclick="resume({decision:'close', note:'closed from dashboard'})">Close escalation</button></div></div>`;
+  return `<div class="card approval wide"><h3>Human approval required <span class="small">interrupt before any irreversible side effect</span></h3>
+    <div class="row"><div class="big">${money(p.amount_minor, p.currency)}</div><div>credit note on <b>${esc(p.invoice_number)}</b> · action <span class="mono">${esc(p.action_hash.slice(0, 16))}…</span></div></div>
+    <div class="row" style="margin-top:10px">
+      <input id="reviewer" value="finance.reviewer" size="16" title="Reviewer id">
+      <button class="primary" onclick="resume({decision:'approve', action_hash:'${esc(p.action_hash)}'})">Approve</button>
+      <button class="danger" onclick="resume({decision:'reject', action_hash:'${esc(p.action_hash)}', note: 'rejected from dashboard'})">Reject</button>
+      <span class="small">The server re-computes the action hash; a stale or modified action cannot execute.</span>
+    </div>
+    <details style="margin-top:10px"><summary>Edit (amount or wording) — financial edits require policy re-check + re-approval</summary>
+      <div class="row" style="margin:8px 0"><label>Amount (${esc((a?.currency || "").toUpperCase())})</label><input id="edit-amount" value="${a ? (a.amount_minor / 100).toFixed(2) : ""}" size="10"></div>
+      <textarea id="edit-msg">${esc(a?.customer_message_draft || "")}</textarea>
+      <button onclick="submitEdit('${esc(p.action_hash)}')">Submit edit</button>
+    </details></div>`;
+}
+
+function render(v) {
+  const s = v.state, run = v.run, email = s.source_email, claim = s.claim, id = s.identity, rec = s.reconciliation,
+        adj = s.adjudication, act = s.proposed_action, pol = s.policy_result, ex = s.execution, ver = s.verification;
+  const title = id?.company_name ? `${esc(id.company_name)} · ${esc(id.invoice_number || "")}` : esc(email?.from_email || run.source_email_id);
+  const ledger = v.financial_actions.find((f) => f.action_hash === act?.action_hash);
+  $("#view").innerHTML = `
+  <div class="panel">
+    <div class="hero"><div><h2>${title}</h2><div class="small">run <span class="mono">${esc(run.run_id)}</span> · thread <span class="mono">${esc(run.thread_id)}</span> · reasoner ${esc(run.reasoner || "")}</div>
+      ${run.outcome_reason ? `<div class="reason">${esc(run.outcome_reason)}</div>` : ""}</div>
+      <div class="row">${pill(run.status)} <button onclick="startRun('${esc(run.source_email_id)}', true)" title="Start a second run for the same email, bypassing intake dedupe">Force replay</button></div></div>
+    ${stepper(v)}
+  </div>
+  <div class="grid">
+    ${approvalPanel(v)}
+    <div class="card"><h3>Customer claim ${claim ? pill(claim.dispute_type.toUpperCase()) : ""}</h3>
+      ${email ? `<div class="small">${esc(email.from_name || "")} &lt;${esc(email.from_email)}&gt; · ${esc(email.subject)}</div><pre class="email">${esc(email.body)}</pre>` : "<div class='muted'>Loading…</div>"}
+      ${claim ? `<div class="kv" style="margin-top:8px"><div>Summary</div><div>${esc(claim.summary)}</div><div>Disputed</div><div>${money(claim.disputed_amount_minor, claim.currency)}</div>
+      <div>Invoice hint</div><div>${esc(claim.invoice_hint || "—")}</div><div>Extracted by</div><div>${esc(claim.extracted_by)}</div>
+      ${claim.injection_signals.length ? `<div>Injection</div><div class="bad">⚠ ${esc(claim.injection_signals.join(", "))} — treated as data</div>` : ""}</div>` : ""}
+    </div>
+    <div class="card"><h3>Identity ${id ? pill(id.status) : ""}</h3>${id ? `<div>${esc(id.reason)}</div>
+      <div class="kv" style="margin-top:8px"><div>HubSpot company</div><div>${esc(id.company_name || "—")} <span class="mono">${esc(id.hubspot_company_id || "")}</span></div>
+      <div>Stripe customer</div><div class="mono">${esc(id.customer_id || "—")}</div><div>Invoice</div><div class="mono">${esc(id.invoice_id || "—")}</div>
+      ${id.candidate_ids.length ? `<div>Candidates</div><div class="mono">${esc(id.candidate_ids.join(", "))}</div>` : ""}</div>` : "<div class='muted'>—</div>"}</div>
+    ${evidenceCard(s.evidence)}
+    <div class="card"><h3>Deterministic reconciliation ${rec ? pill(rec.outcome) : ""}</h3>${rec ? `
+      ${rec.selected ? `<div class="kv"><div>Original line</div><div class="mono">${esc(rec.selected.original_line_id)}</div><div>Duplicate line</div><div class="mono">${esc(rec.selected.duplicate_line_id)}</div>
+      <div>Matched on</div><div>${esc(rec.selected.matched_signals.join(" · "))}</div></div>` : ""}
+      <div class="row" style="margin-top:8px"><div class="big">${money(rec.credit_amount_minor, rec.currency)}</div><div class="small">computed by code, not the LLM<br>invoice remaining ${money(rec.invoice_remaining_minor, rec.currency)}</div></div>
+      ${rec.notes.map((n) => `<div class="small">• ${esc(n)}</div>`).join("")}` : "<div class='muted'>—</div>"}</div>
+    <div class="card"><h3>Agent decision ${adj ? pill(adj.validity + " · " + adj.resolution) : ""}</h3>${adj ? `
+      <div class="kv"><div>Classification</div><div>${esc(adj.classification)}</div><div>Confidence</div><div>${adj.model_confidence.toFixed(2)} <span class="small">(heuristic, not calibrated)</span></div><div>Reasoner</div><div>${esc(adj.reasoner)}</div></div>
+      <p>${esc(adj.rationale)}</p><div class="small">cites: ${adj.evidence_refs.map((r) => `<span class="mono">${esc(r.ref_id)}</span>`).join(", ")}</div>
+      ${adj.guard_notes.map((n) => `<div class="small bad">guard: ${esc(n)}</div>`).join("")}` : "<div class='muted'>—</div>"}</div>
+    <div class="card"><h3>Policy checks ${pol ? pill(pol.passed ? "PASSED" : "BLOCKED") : ""}</h3>${pol ? pol.checks.map((c) =>
+      `<div class="check">${tick(c.passed)}<div><b>${esc(c.rule)}</b><div class="small">${esc(c.detail)}</div></div></div>`).join("") : "<div class='muted'>—</div>"}</div>
+    <div class="card"><h3>Proposed financial action</h3>${act ? `<div class="kv">
+      <div>Type</div><div>${esc(act.action_type)} (no cash refund)</div><div>Amount</div><div><b>${money(act.amount_minor, act.currency)}</b></div>
+      <div>Invoice</div><div>${esc(act.invoice_number)} <span class="mono">${esc(act.invoice_id)}</span></div><div>Line</div><div class="mono">${esc(act.stripe_line_item_ids.join(", "))}</div>
+      <div>Action hash</div><div class="mono">${esc(act.action_hash)}</div><div>Idempotency key</div><div class="mono">${esc(act.idempotency_key)}</div>
+      <div>Ledger</div><div>${ledger ? pill(ledger.status) : "—"}</div></div>` : "<div class='muted'>No action proposed.</div>"}
+      ${v.approvals.length ? `<table style="margin-top:8px"><tr><th>approval</th><th>by</th><th>hash</th></tr>${v.approvals.map((a) =>
+        `<tr><td>${esc(a.decision)}${a.valid ? "" : ` <span class="bad">(${esc(a.invalidation_reason || "invalid")})</span>`}</td><td>${esc(a.reviewer_id)} · ${esc(a.channel)}</td><td class="mono">${esc(a.action_hash.slice(0, 12))}</td></tr>`).join("")}</table>` : ""}</div>
+    <div class="card"><h3>Execution</h3>${ex ? `<div class="kv">
+      <div>Stripe credit note</div><div class="mono">${esc(ex.stripe_credit_note_id || "—")} ${esc(ex.stripe_credit_note_number || "")}</div>
+      <div>Ledger</div><div>${pill(ex.financial_action_status)} ${ex.stripe_replayed ? '<span class="small">replay: no new write</span>' : ""} ${ex.stripe_outcome_reconciled ? '<span class="small">timeout reconciled</span>' : ""}</div>
+      <div>HubSpot</div><div>${ex.hubspot_updated ? '<span class="ok">updated</span>' : `<span class="bad">not updated</span> ${esc(ex.hubspot_error || "")}`} · ${ex.hubspot_attempts} attempt(s) · ${ex.repair_cycles} repair cycle(s)</div>
+      <div>Duplicate credit?</div><div class="ok"><b>NO</b> — one credit note per action hash</div></div>` : "<div class='muted'>Nothing executed.</div>"}</div>
+    <div class="card"><h3>Independent verification ${ver ? pill(ver.status) : ""}</h3>${ver ? ver.checks.map((c) =>
+      `<div class="check">${tick(c.passed)}<div><b>${esc(c.system)}.${esc(c.check)}</b><div class="small">expected ${esc(c.expected)} · actual ${esc(c.actual)}</div></div></div>`).join("") : "<div class='muted'>Not verified yet — customer email is impossible until VERIFIED.</div>"}</div>
+    ${s.customer_reply ? `<div class="card wide"><h3>Customer response (sent after verification) ${pill("RESOLVED")}</h3>
+      <div class="small">To ${esc(s.customer_reply.to_email)} · ${esc(s.customer_reply.subject)}</div><pre class="email">${esc(s.customer_reply.body)}</pre></div>` : ""}
+    <div class="card wide" id="world-card"></div>
+    <div class="card wide"><h3>Audit trail <span class="small">${v.events.length} events · no chain-of-thought</span></h3><div class="scroll"><table>
+      <tr><th>time</th><th>node</th><th>event</th><th>system</th><th>summary</th></tr>
+      ${v.events.slice().reverse().map((e) => `<tr><td class="mono">${esc((e.created_at || "").slice(11, 19))}</td><td>${esc(e.node_name || "")}</td><td>${esc(e.event_type)}</td><td>${esc(e.external_system || "")}</td><td>${esc(e.summary)}</td></tr>`).join("")}
+    </table></div></div>
+  </div>`;
+  if (health.mode === "fixture") renderWorld(act, id);
+}
+
+async function renderWorld(act, id) {
+  const w = await api("/api/demo/world").catch(() => null);
+  const el = $("#world-card");
+  if (!w || !el) return;
+  const inv = act ? w.stripe.invoices[act.invoice_id] : (id?.invoice_id ? w.stripe.invoices[id.invoice_id] : null);
+  const cns = Object.values(w.stripe.credit_notes).filter((c) => !inv || c.invoice === inv.id);
+  const co = id?.hubspot_company_id ? w.hubspot.companies[id.hubspot_company_id]?.properties : null;
+  el.innerHTML = `<h3>External systems (fixture adapters) <span class="small">live state as Stripe / HubSpot / Slack see it</span></h3>
+    <div class="grid" style="margin-top:0">
+      <div><div class="src">Stripe</div>${inv ? `<div class="kv"><div>${esc(inv.number)}</div><div>${esc(inv.status)} · total ${money(inv.total, inv.currency)}</div><div>Remaining</div><div><b>${money(inv.amount_remaining, inv.currency)}</b></div></div>` : "—"}
+        ${cns.map((c) => `<div class="small">credit note <span class="mono">${esc(c.id)}</span> ${money(c.amount, c.currency)} · reason ${esc(c.reason)} · email_type ${esc(c.email_type || "n/a")}</div>`).join("") || '<div class="small">no credit notes</div>'}</div>
+      <div><div class="src">HubSpot</div>${co ? `<div class="kv"><div>dispute_status</div><div>${esc(co.dispute_status || "—")}</div><div>dispute_amount</div><div>${esc(co.dispute_amount || "—")} ${esc(co.dispute_currency || "")}</div><div>credit note id</div><div class="mono">${esc(co.stripe_credit_note_id || "—")}</div></div>` : "—"}</div>
+      <div><div class="src">Slack</div>${w.slack.messages.slice(-4).reverse().map((m) => `<div class="small">• ${esc(m.text)}</div>`).join("") || '<div class="small">—</div>'}
+        ${w.faults.filter((f) => f.times > 0).map((f) => `<div class="small bad">fault armed: ${esc(f.system)}.${esc(f.op)} ${esc(f.mode)} ${f.status} ×${f.times}</div>`).join("")}</div>
+    </div>`;
+}
+
+async function resume(body) {
+  body.reviewer_id = ($("#reviewer")?.value || "finance.reviewer").trim();
+  try { await api(`/api/runs/${current}/resume`, {method: "POST", body: JSON.stringify(body)}); toast(`${body.decision} submitted`); }
+  catch (e) { toast(`Refused: ${e.message}`); }
+  refresh();
+}
+function submitEdit(hash) {
+  const edits = {}, amount = Math.round(parseFloat($("#edit-amount").value) * 100), msg = $("#edit-msg").value;
+  const a = lastView.state.proposed_action;
+  if (!Number.isNaN(amount) && amount !== a.amount_minor) edits.amount_minor = amount;
+  if (msg !== a.customer_message_draft) edits.customer_message_draft = msg;
+  resume({decision: "edit", action_hash: hash, edits});
+}
+
+async function refresh() {
+  if (!current) return;
+  try { lastView = await api(`/api/runs/${current}`); render(lastView); } catch (e) { $("#view").innerHTML = `<div class="panel empty">${esc(e.message)}</div>`; }
+  loadSide();
+}
+
+async function renderEvals() {
+  current = null;
+  let r;
+  try { r = await api("/api/evals/latest"); } catch { r = null; }
+  const run = `<button class="primary" onclick="runEvals()">Run evaluation suite</button>`;
+  if (!r) { $("#view").innerHTML = `<div class="panel empty">No evaluation report yet. ${run}</div>`; return; }
+  const m = r.metrics, s = r.safety;
+  const tile = (v, l, good) => `<div class="tile"><div class="v ${good === undefined ? "" : good ? "ok" : "bad"}">${esc(v)}</div><div class="l">${esc(l)}</div></div>`;
+  $("#view").innerHTML = `<div class="panel"><div class="hero"><div><h2>Evaluation — ${esc(r.suite)} v${esc(r.suite_version)}</h2>
+    <div class="small">reasoner ${esc(r.reasoner)} · app ${esc(r.application_version)} · dataset ${esc(r.dataset_sha256)} · ${esc(r.created_at)}</div><div class="small">${esc(r.note)}</div></div>${run}</div></div>
+    <div class="tiles" style="margin-top:12px">
+      ${tile(m.total_cases, "executable scenarios")}${tile(`${m.passed}/${m.total_cases}`, "cases passed", m.failed === 0)}
+      ${tile(s.unsafe_financial_actions, "unsafe mutations", s.unsafe_financial_actions === 0)}${tile(s.duplicate_financial_mutations, "duplicate credits", s.duplicate_financial_mutations === 0)}
+      ${tile(s.approval_bypasses, "approval bypasses", s.approval_bypasses === 0)}${tile(s.pre_verification_customer_emails, "emails before verification", s.pre_verification_customer_emails === 0)}
+      ${tile(s.prompt_injection_policy_bypasses, "injection bypasses", s.prompt_injection_policy_bypasses === 0)}${tile(`${m.latency_ms_p50} ms`, "p50 latency per case")}
+    </div>
+    <div class="grid">
+      <div class="card"><h3>Metrics vs. PRD targets</h3><table><tr><th>metric</th><th>value</th><th>target</th><th></th></tr>
+        ${Object.entries(r.targets).map(([k, t]) => `<tr><td>${esc(k)}</td><td>${esc(t.value)}</td><td>${esc(t.target)}</td><td>${tick(t.met)}</td></tr>`).join("")}
+        <tr><td>evidence_grounding_score</td><td>${esc(m.evidence_grounding_score)}</td><td></td><td></td></tr>
+        <tr><td>customer_response_factuality</td><td>${esc(m.customer_response_factuality)}</td><td></td><td></td></tr></table></div>
+      <div class="card"><h3>By category</h3><table><tr><th>category</th><th>passed</th></tr>
+        ${Object.entries(r.categories).map(([k, c]) => `<tr><td>${esc(k)}</td><td>${c.passed}/${c.cases}</td></tr>`).join("")}</table></div>
+      <div class="card wide"><h3>Cases</h3><div class="scroll"><table><tr><th>case</th><th>category</th><th>description</th><th>final status</th><th>credits</th><th>pass</th></tr>
+        ${r.cases.map((c) => `<tr><td class="mono">${esc(c.case_id)}</td><td>${esc(c.category)}</td><td>${esc(c.description)}</td><td>${pill(c.final_status)}</td><td>${c.credit_notes.map((n) => money(n.amount, n.currency)).join(", ") || "—"}</td><td>${tick(c.passed)}</td></tr>`).join("")}
+      </table></div></div>
+    </div>`;
+}
+async function runEvals() { await api("/api/evals/run", {method: "POST"}).catch((e) => toast(e.message)); toast("Evaluation started…"); setTimeout(renderEvals, 4000); }
+async function injectFault() { await api("/api/demo/faults", {method: "POST", body: JSON.stringify({system: "hubspot", op: "update_dispute", mode: "error", status: 503, times: 3})}); toast("Armed: HubSpot update_dispute → 503 ×3 (after the Stripe write)"); refresh(); }
+async function clearFaults() { await api("/api/demo/faults", {method: "DELETE"}); toast("Faults cleared"); refresh(); }
+async function resetDemo() { await api("/api/demo/reset", {method: "POST"}); toast("Demo reset"); go("#/"); loadSide(); }
+
+function route() {
+  clearInterval(poller);
+  const h = location.hash;
+  if (h.startsWith("#/runs/")) {
+    current = h.slice(7); refresh();
+    poller = setInterval(() => { if (!lastView || lastView.run.run_id !== current || !TERMINAL.has(lastView.run.status) || lastView.pending) refresh(); }, 1200);
+  } else if (h === "#/evals") { renderEvals(); loadSide(); }
+  else { current = null; $("#view").innerHTML = `<div class="panel empty">Pick a customer email and click <b>Resolve with Settle</b>.</div>`; loadSide(); }
+}
+window.addEventListener("hashchange", route);
+loadHealth().then(route);
+setInterval(loadSide, 5000);
+</script>
+</body>
+</html>

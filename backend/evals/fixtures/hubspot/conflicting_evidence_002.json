@@ -1,0 +1,44 @@
+{
+  "companies": {
+    "201": {
+      "id": "201",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "Customer runs two separate API projects (prod + analytics) that are billed separately.",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "acme-analytics.example",
+        "name": "Acme Analytics",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_acme_001"
+      }
+    }
+  },
+  "contacts": {
+    "101": {
+      "company_ids": [
+        "201"
+      ],
+      "email": "maya@acme-analytics.example",
+      "firstname": "Maya",
+      "id": "101",
+      "lastname": "Chen"
+    }
+  },
+  "deals": {
+    "301": {
+      "amount": "480000",
+      "company_id": "201",
+      "dealname": "Acme Analytics - 2026 Enterprise Renewal",
+      "dealstage": "contractsent",
+      "id": "301"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "companies": {
+    "210": {
+      "id": "210",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "incorr1.example",
+        "name": "Stark Cloud incorr1",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_incorr1"
+      }
+    }
+  },
+  "contacts": {
+    "110": {
+      "company_ids": [
+        "210"
+      ],
+      "email": "cfo@incorr1.example",
+      "firstname": "Pepper",
+      "id": "110",
+      "lastname": "Potts"
+    }
+  },
+  "deals": {
+    "310": {
+      "amount": "150000",
+      "company_id": "210",
+      "dealname": "Stark Cloud incorr1 - 2026 renewal",
+      "dealstage": "contractsent",
+      "id": "310"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_hooli": {
+      "email": "ap@hooli-data.example",
+      "id": "cus_hooli",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Hooli Data",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_hooli": {
+      "amount_due": 2240000,
+      "amount_paid": 0,
+      "amount_remaining": 2240000,
+      "currency": "usd",
+      "customer": "cus_hooli",
+      "id": "in_hooli",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_hooli_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 120000,
+            "currency": "usd",
+            "description": "Seat add-on - Aug 2026",
+            "id": "il_hooli_seat_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_seat_addon",
+                "product": "prod_price_seat_addon"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 120000,
+            "currency": "usd",
+            "description": "Seat add-on - Aug 2026",
+            "id": "il_hooli_seat_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_seat_addon",
+                "product": "prod_price_seat_addon"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-40001"
+      },
+      "number": "INV-40001",
+      "object": "invoice",
+      "status": "open",
+      "total": 2240000
+    },
+    "in_hooli_old": {
+      "amount_due": 2000000,
+      "amount_paid": 0,
+      "amount_remaining": 0,
+      "currency": "usd",
+      "customer": "cus_hooli",
+      "id": "in_hooli_old",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_hooli_old_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-40000"
+      },
+      "number": "INV-40000",
+      "object": "invoice",
+      "status": "paid",
+      "total": 2000000
+    }
+  }
+}

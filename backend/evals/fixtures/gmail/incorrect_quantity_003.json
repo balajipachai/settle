@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "msg_incorr3": {
+      "body": "The quantity of API units on INV-80001 is wrong: we used 1.2M calls, not 2M.",
+      "from_email": "cfo@incorr3.example",
+      "from_name": "Pepper Potts",
+      "id": "msg_incorr3",
+      "inbox": true,
+      "message_id_header": "<msg_incorr3@mail.settle-demo.example>",
+      "received_at": "2026-09-12T10:00:00+00:00",
+      "subject": "Invoice question",
+      "thread_id": "thr_incorr3",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

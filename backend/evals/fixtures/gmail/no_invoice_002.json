@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "msg_paidco": {
+      "body": "We were charged twice for the $6,000 API overage.",
+      "from_email": "ap@paidco.example",
+      "from_name": "Sam Hill",
+      "id": "msg_paidco",
+      "inbox": true,
+      "message_id_header": "<msg_paidco@mail.settle-demo.example>",
+      "received_at": "2026-09-12T10:00:00+00:00",
+      "subject": "Charged twice",
+      "thread_id": "thr_paidco",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

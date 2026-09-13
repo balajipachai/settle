@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "msg_vandelay": {
+      "body": "INV-60001 has the $900 SMS overage billed twice. Please correct it.",
+      "from_email": "art@vandelay.example",
+      "from_name": "Art Vandelay",
+      "id": "msg_vandelay",
+      "inbox": true,
+      "message_id_header": "<msg_vandelay@mail.settle-demo.example>",
+      "received_at": "2026-09-12T10:00:00+00:00",
+      "subject": "SMS overage twice on INV-60001",
+      "thread_id": "thr_vandelay",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

@@ -1,0 +1,9 @@
+{
+  "version": "2026-09-14.1",
+  "allowed_currencies": ["usd", "eur", "gbp"],
+  "eligible_invoice_statuses": ["open"],
+  "max_credit_amount_minor": 5000000,
+  "min_model_confidence": 0.9,
+  "require_human_for_all_financial_actions": true,
+  "block_on_prompt_injection_signals": true
+}

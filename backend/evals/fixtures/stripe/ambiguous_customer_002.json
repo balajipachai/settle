@@ -1,0 +1,146 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_wayne": {
+      "email": "ap@wayne-ent.example",
+      "id": "cus_wayne",
+      "metadata": {
+        "hubspot_company_id": "205"
+      },
+      "name": "Wayne Enterprises",
+      "object": "customer"
+    },
+    "cus_wayne_labs": {
+      "email": "ap@wayne-ent.example",
+      "id": "cus_wayne_labs",
+      "metadata": {
+        "hubspot_company_id": "206"
+      },
+      "name": "Wayne Enterprises Labs",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_cus_wayne": {
+      "amount_due": 1200000,
+      "amount_paid": 0,
+      "amount_remaining": 1200000,
+      "currency": "usd",
+      "customer": "cus_wayne",
+      "id": "in_cus_wayne",
+      "lines": {
+        "data": [
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_wayne_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_wayne_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-20588"
+      },
+      "number": "INV-20588",
+      "object": "invoice",
+      "status": "open",
+      "total": 1200000
+    },
+    "in_cus_wayne_labs": {
+      "amount_due": 1200000,
+      "amount_paid": 0,
+      "amount_remaining": 1200000,
+      "currency": "usd",
+      "customer": "cus_wayne_labs",
+      "id": "in_cus_wayne_labs",
+      "lines": {
+        "data": [
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_wayne_labs_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_cus_wayne_labs_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-20688"
+      },
+      "number": "INV-20688",
+      "object": "invoice",
+      "status": "open",
+      "total": 1200000
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_globex": {
+      "email": "ap@globex-robotics.example",
+      "id": "cus_globex",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Globex Robotics",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_globex": {
+      "amount_due": 2050000,
+      "amount_paid": 0,
+      "amount_remaining": 2050000,
+      "currency": "usd",
+      "customer": "cus_globex",
+      "id": "in_globex",
+      "lines": {
+        "data": [
+          {
+            "amount": 1500000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_globex_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 275000,
+            "currency": "usd",
+            "description": "SMS overage - Aug 2026",
+            "id": "il_globex_sms_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_sms",
+                "product": "prod_price_sms"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 275000,
+            "currency": "usd",
+            "description": "SMS overage - Aug 2026",
+            "id": "il_globex_sms_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_sms",
+                "product": "prod_price_sms"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-30001"
+      },
+      "number": "INV-30001",
+      "object": "invoice",
+      "status": "open",
+      "total": 2050000
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "companies": {
+    "210": {
+      "id": "210",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "soylent-eu.example",
+        "name": "Soylent Foods EU",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_soylent"
+      }
+    }
+  },
+  "contacts": {
+    "110": {
+      "company_ids": [
+        "210"
+      ],
+      "email": "anna@soylent-eu.example",
+      "firstname": "Anna",
+      "id": "110",
+      "lastname": "Weber"
+    }
+  },
+  "deals": {
+    "310": {
+      "amount": "150000",
+      "company_id": "210",
+      "dealname": "Soylent Foods EU - 2026 renewal",
+      "dealstage": "contractsent",
+      "id": "310"
+    }
+  }
+}

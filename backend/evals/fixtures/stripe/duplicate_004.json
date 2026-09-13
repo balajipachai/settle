@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_soylent": {
+      "email": "ap@soylent-eu.example",
+      "id": "cus_soylent",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Soylent Foods EU",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_soylent": {
+      "amount_due": 2680000,
+      "amount_paid": 0,
+      "amount_remaining": 2680000,
+      "currency": "eur",
+      "customer": "cus_soylent",
+      "id": "in_soylent",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "eur",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_soylent_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 340000,
+            "currency": "eur",
+            "description": "API overage - Aug 2026",
+            "id": "il_soylent_api_1",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 340000,
+            "currency": "eur",
+            "description": "API overage - Aug 2026",
+            "id": "il_soylent_api_2",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-50001"
+      },
+      "number": "INV-50001",
+      "object": "invoice",
+      "status": "open",
+      "total": 2680000
+    }
+  }
+}

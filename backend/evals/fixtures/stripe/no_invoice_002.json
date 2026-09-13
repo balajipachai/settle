@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_paidco": {
+      "email": "ap@paidco.example",
+      "id": "cus_paidco",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Paid Co",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_paidco": {
+      "amount_due": 3200000,
+      "amount_paid": 0,
+      "amount_remaining": 0,
+      "currency": "usd",
+      "customer": "cus_paidco",
+      "id": "in_paidco",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "usd",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_paidco_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_paid_a",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 600000,
+            "currency": "usd",
+            "description": "API overage - Aug 2026",
+            "id": "il_paid_b",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-90001"
+      },
+      "number": "INV-90001",
+      "object": "invoice",
+      "status": "paid",
+      "total": 3200000
+    }
+  }
+}

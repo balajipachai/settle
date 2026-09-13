@@ -1,0 +1,65 @@
+{
+  "companies": {
+    "205": {
+      "id": "205",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "wayne-ent.example",
+        "name": "Wayne Enterprises",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_wayne"
+      }
+    },
+    "206": {
+      "id": "206",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "wayne-ent.example",
+        "name": "Wayne Enterprises Labs",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_wayne_labs"
+      }
+    }
+  },
+  "contacts": {
+    "1205": {
+      "company_ids": [
+        "205"
+      ],
+      "email": "owner205@wayne-ent.example",
+      "firstname": "Lucius",
+      "id": "1205",
+      "lastname": "Fox"
+    },
+    "1206": {
+      "company_ids": [
+        "206"
+      ],
+      "email": "owner206@wayne-ent.example",
+      "firstname": "Lucius",
+      "id": "1206",
+      "lastname": "Fox"
+    }
+  },
+  "deals": {}
+}

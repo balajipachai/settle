@@ -1,0 +1,97 @@
+{
+  "credit_notes": {},
+  "customers": {
+    "cus_maple": {
+      "email": "ap@maple-ledger.example",
+      "id": "cus_maple",
+      "metadata": {
+        "hubspot_company_id": "210"
+      },
+      "name": "Maple Ledger",
+      "object": "customer"
+    }
+  },
+  "idempotency": {},
+  "invoices": {
+    "in_maple": {
+      "amount_due": 3000000,
+      "amount_paid": 0,
+      "amount_remaining": 3000000,
+      "currency": "cad",
+      "customer": "cus_maple",
+      "id": "in_maple",
+      "lines": {
+        "data": [
+          {
+            "amount": 2000000,
+            "currency": "cad",
+            "description": "Platform subscription - Aug 2026",
+            "id": "il_maple_base",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_platform",
+                "product": "prod_platform"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 500000,
+            "currency": "cad",
+            "description": "API overage - Aug 2026",
+            "id": "il_maple_a",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          },
+          {
+            "amount": 500000,
+            "currency": "cad",
+            "description": "API overage - Aug 2026",
+            "id": "il_maple_b",
+            "metadata": {},
+            "object": "line_item",
+            "period": {
+              "end": 1788220800,
+              "start": 1785542400
+            },
+            "pricing": {
+              "price_details": {
+                "price": "price_api_overage",
+                "product": "prod_price_api_overage"
+              },
+              "type": "price_details"
+            },
+            "quantity": 1
+          }
+        ],
+        "object": "list"
+      },
+      "metadata": {
+        "settle_invoice_ref": "INV-83001"
+      },
+      "number": "INV-83001",
+      "object": "invoice",
+      "status": "open",
+      "total": 3000000
+    }
+  }
+}

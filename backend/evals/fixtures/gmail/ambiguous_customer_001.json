@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "msg_umbrella_001": {
+      "body": "Hello, we were charged twice for the $4,000 API overage this month. Please fix.",
+      "from_email": "ops@umbrella-health.example",
+      "from_name": "Alex Wesker",
+      "id": "msg_umbrella_001",
+      "inbox": true,
+      "message_id_header": "<msg_umbrella_001@mail.settle-demo.example>",
+      "received_at": "2026-09-12T12:30:00+00:00",
+      "subject": "Double charge",
+      "thread_id": "thr_umb",
+      "to_email": "billing@settle-demo.example"
+    }
+  },
+  "sent": []
+}

@@ -1,0 +1,57 @@
+{
+  "companies": {
+    "203": {
+      "id": "203",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "umbrella-health.example",
+        "name": "Umbrella Health",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_umb_us"
+      }
+    },
+    "204": {
+      "id": "204",
+      "properties": {
+        "account_owner": "Jordan Lee",
+        "account_tier": "enterprise",
+        "description": "",
+        "dispute_amount": null,
+        "dispute_currency": null,
+        "dispute_status": null,
+        "domain": "umbrella-health.example",
+        "name": "Umbrella Health EU",
+        "renewal_date": "2027-01-31",
+        "resolution_type": null,
+        "resolved_at": null,
+        "settle_action_id": null,
+        "settle_run_id": null,
+        "stripe_credit_note_id": null,
+        "stripe_customer_id": "cus_umb_eu"
+      }
+    }
+  },
+  "contacts": {
+    "103": {
+      "company_ids": [
+        "203",
+        "204"
+      ],
+      "email": "ops@umbrella-health.example",
+      "firstname": "Alex",
+      "id": "103",
+      "lastname": "Wesker"
+    }
+  },
+  "deals": {}
+}

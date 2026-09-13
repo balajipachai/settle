@@ -33,3 +33,29 @@ def need(value: str | None, name: str) -> str:
     if not value:
         raise SystemExit(f"{name} is not set (see .env.example)")
     return value
+
+
+def demo_customer_email() -> str:
+    """Return an operator-provided recipient, or a controlled alias of the support mailbox.
+
+    Live seed data must not use the reserved ``.example`` fixture address: HubSpot rejects
+    it, and a post-verification reply must never target an arbitrary third-party inbox.
+    Gmail's plus alias keeps the entire live rehearsal inside the authorized support mailbox.
+    """
+    s = settings()
+    if s.demo_customer_email:
+        return s.demo_customer_email
+
+    from app.integrations.gmail import LiveGmail
+
+    gmail = LiveGmail(
+        need(s.gmail_client_id, "GMAIL_CLIENT_ID"),
+        need(s.gmail_client_secret, "GMAIL_CLIENT_SECRET"),
+        need(s.gmail_refresh_token, "GMAIL_REFRESH_TOKEN"),
+        user_id=s.gmail_user_id,
+    )
+    inbox = gmail._req("GET", "/profile")["emailAddress"]
+    local, sep, domain = inbox.partition("@")
+    if not sep:
+        raise SystemExit("Gmail profile returned an invalid email address")
+    return f"{local}+settle-demo@{domain}"

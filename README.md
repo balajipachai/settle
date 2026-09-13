@@ -2,6 +2,10 @@
 
 Settle is a stateful financial agent. It reads a customer's invoice dispute from **Gmail** and investigates it across **Stripe** and **HubSpot**. It then makes an evidence-grounded decision and applies deterministic financial policy. Before moving any money it pauses for **action-bound human approval in Slack** (or the dashboard). After approval it creates a **Stripe test-mode credit note** and updates HubSpot. It **independently verifies** both systems, and only then emails the customer. Every step leaves an audit trail.
 
+## Demo video
+
+[Watch the two-minute end-to-end demo](demo-video/MultiAgentHackathon.mp4)
+
 > **The LLM reasons. Deterministic software calculates, authorizes, and executes.**
 
 The LLM classifies the claim and adjudicates the evidence. It never chooses an amount, never invents an ID, never sees a write tool, and cannot change policy.
@@ -145,6 +149,8 @@ Latest run (`rules-v1` reasoner, `evals/reports/latest.md`):
 ## Live mode (Gmail + Stripe test mode + HubSpot + Slack)
 
 1. `cp .env.example .env`, set `SETTLE_MODE=live`, and fill in the credentials. `.env.example` lists the scopes each one needs.
+   Set `SETTLE_DEMO_CUSTOMER_EMAIL` only to a mailbox you control. If it is blank, live seeding uses a `+settle-demo`
+   alias of the authorized support mailbox, so the final verified customer reply stays in that mailbox.
 2. Seed the canonical data (from `backend/`):
    ```bash
    uv run python scripts/seed_stripe.py    # customer, $42,000 invoice INV-10428 with duplicated $6,000 line, finalized/open

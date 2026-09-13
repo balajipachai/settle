@@ -9,7 +9,7 @@ from __future__ import annotations
 from urllib.parse import urlencode
 
 import httpx
-from _common import need, save_seed, settings
+from _common import demo_customer_email, need, save_seed, settings
 
 from app.fixtures.worlds import AUG_2026
 from app.integrations.stripe import form_encode
@@ -34,7 +34,7 @@ def post(path: str, data: dict, *, ok_errors: tuple[str, ...] = ()) -> dict | No
     return r.json()
 
 
-customer = post("/v1/customers", {"name": "Acme Analytics", "email": "ap@acme-analytics.example",
+customer = post("/v1/customers", {"name": "Acme Analytics", "email": demo_customer_email(),
                                   "metadata": {"settle_seed": "canonical"}})
 prices = {}
 for key_, name, amount in (("platform", "Enterprise platform subscription", 3_000_000), ("overage", "API overage", 600_000)):

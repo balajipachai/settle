@@ -9,12 +9,13 @@ from __future__ import annotations
 from urllib.parse import urlencode
 
 import httpx
-from _common import load_seed, need, save_seed, settings
+from _common import demo_customer_email, load_seed, need, save_seed, settings
 
 from app.integrations.stripe import form_encode
 
 s = settings()
 token = need(s.hubspot_access_token, "HUBSPOT_ACCESS_TOKEN")
+customer_email = demo_customer_email()
 stripe_seed = load_seed().get("stripe") or {}
 customer_id = need(stripe_seed.get("customer_id"), "stripe.customer_id in data/live_seed.json (run seed_stripe.py)")
 hs = httpx.Client(base_url="https://api.hubapi.com", headers={"Authorization": f"Bearer {token}"}, timeout=30)
@@ -50,9 +51,9 @@ else:
     company_id = req("POST", "/crm/v3/objects/companies", json={"properties": company_props})["id"]
 
 found = req("POST", "/crm/v3/objects/contacts/search", json={
-    "filterGroups": [{"filters": [{"propertyName": "email", "operator": "EQ", "value": "maya@acme-analytics.example"}]}]})
+    "filterGroups": [{"filters": [{"propertyName": "email", "operator": "EQ", "value": customer_email}]}]})
 contact_id = found["results"][0]["id"] if found.get("results") else req("POST", "/crm/v3/objects/contacts", json={
-    "properties": {"email": "maya@acme-analytics.example", "firstname": "Maya", "lastname": "Chen"}})["id"]
+    "properties": {"email": customer_email, "firstname": "Maya", "lastname": "Chen"}})["id"]
 req("PUT", f"/crm/v4/objects/contact/{contact_id}/associations/default/company/{company_id}")
 
 deal_id = req("POST", "/crm/v3/objects/deals", json={"properties": {
@@ -64,7 +65,7 @@ req("PUT", f"/crm/v4/objects/deal/{deal_id}/associations/default/company/{compan
 stripe_key = need(s.stripe_secret_key, "STRIPE_SECRET_KEY")
 r = httpx.post(f"https://api.stripe.com/v1/customers/{customer_id}", headers={
     "Authorization": f"Bearer {stripe_key}", "Content-Type": "application/x-www-form-urlencoded"},
-    content=urlencode(form_encode({"metadata": {"hubspot_company_id": company_id}})).encode(), timeout=30)
+    content=urlencode(form_encode({"email": customer_email, "metadata": {"hubspot_company_id": company_id}})).encode(), timeout=30)
 if r.status_code >= 400:
     raise SystemExit(f"Stripe customer metadata update failed: {r.status_code} {r.text}")
 

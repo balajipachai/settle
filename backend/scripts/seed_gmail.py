@@ -20,7 +20,10 @@ gmail = LiveGmail(need(s.gmail_client_id, "GMAIL_CLIENT_ID"), need(s.gmail_clien
                   need(s.gmail_refresh_token, "GMAIL_REFRESH_TOKEN"), user_id=s.gmail_user_id)
 inbox_address = gmail._req("GET", "/profile")["emailAddress"]
 customer_email = demo_customer_email()
-ref = (load_seed().get("stripe") or {}).get("invoice_ref", "INV-10428")
+stripe_seed = load_seed().get("stripe") or {}
+# Stripe accepts a custom display number only once per account. On later demo
+# runs it assigns a unique number, which the email must reference exactly.
+ref = stripe_seed.get("invoice_number") or stripe_seed.get("invoice_ref", "INV-10428")
 
 
 def mime(subject: str, body: str, when: datetime, msg_id: str, in_reply_to: str | None = None) -> str:

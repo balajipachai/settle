@@ -2,6 +2,10 @@
 
 Settle is a stateful financial agent. It reads a customer's invoice dispute from **Gmail** and investigates it across **Stripe** and **HubSpot**. It then makes an evidence-grounded decision and applies deterministic financial policy. Before moving any money it pauses for **action-bound human approval in Slack** (or the dashboard). After approval it creates a **Stripe test-mode credit note** and updates HubSpot. It **independently verifies** both systems, and only then emails the customer. Every step leaves an audit trail.
 
+## Demo video
+
+[Watch the two-minute end-to-end demo](demo-video/MultiAgentHackathon.mp4)
+
 > **The LLM reasons. Deterministic software calculates, authorizes, and executes.**
 
 The LLM classifies the claim and adjudicates the evidence. It never chooses an amount, never invents an ID, never sees a write tool, and cannot change policy.
